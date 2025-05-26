@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gerenciamento de Produtos</title>
+    <link rel="stylesheet" href="assets/css/estilo.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="logo-container">
+                <a href="index.html" class="logo">
+                    <h1>Sistema de Produtos</h1>
+                </a>
+            </div>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html" class="active">INÍCIO</a></li>
+                    <li><a href="#produtos">PRODUTOS</a></li>
+                    <li><a href="#sobre">SOBRE</a></li>
+                </ul>
+            </nav>
+
+            <div class="user-actions">
+                <div id="userInfo" style="display: none;">
+                    <span id="userName"></span>
+                    <button id="logoutBtn" class="btn-logout">Sair</button>
+                </div>
+                <button id="loginBtn" class="btn-login">Entrar</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Modal de Login -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="senha">Senha:</label>
+                    <input type="password" id="senha" required>
+                </div>
+                <button type="submit" class="btn-login">Entrar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Cadastro de Produto -->
+    <div id="produtoModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="tituloModalProduto">
+        <div class="modal-content">
+            <span class="close" aria-label="Fechar modal">&times;</span>
+            <h2 id="tituloModalProduto">Cadastrar Produto</h2>
+            <form id="produtoForm">
+                <div class="form-group">
+                    <label for="nome">Nome do Produto:</label>
+                    <input type="text" id="nome" name="nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="descricao">Descrição:</label>
+                    <textarea id="descricao" name="descricao" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="preco">Preço:</label>
+                    <input type="number" id="preco" name="preco" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="quantidade">Quantidade:</label>
+                    <input type="number" id="quantidade" name="quantidade" required>
+                </div>
+                <div class="form-group">
+                    <label for="foto">Foto do Produto:</label>
+                    <input type="file" id="foto" name="foto" accept="image/*">
+                    <div id="previewContainer" class="preview-container"></div>
+                </div>
+                <button type="submit" class="btn-cadastrar">Cadastrar Produto</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Edição de Produto -->
+    <div id="editarProdutoModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="tituloModalEditarProduto">
+        <div class="modal-content">
+            <span class="close" aria-label="Fechar modal">&times;</span>
+            <h2 id="tituloModalEditarProduto">Editar Produto</h2>
+            <form id="editarProdutoForm">
+                <input type="hidden" id="editarId">
+                <div class="form-group">
+                    <label for="editarNome">Nome do Produto:</label>
+                    <input type="text" id="editarNome" name="editarNome" required>
+                </div>
+                <div class="form-group">
+                    <label for="editarDescricao">Descrição:</label>
+                    <textarea id="editarDescricao" name="editarDescricao" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editarPreco">Preço:</label>
+                    <input type="number" id="editarPreco" name="editarPreco" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="editarQuantidade">Quantidade:</label>
+                    <input type="number" id="editarQuantidade" name="editarQuantidade" required>
+                </div>
+                <div class="form-group">
+                    <label for="editarFoto">Foto do Produto:</label>
+                    <input type="file" id="editarFoto" name="editarFoto" accept="image/*">
+                    <div id="editarPreviewContainer" class="preview-container"></div>
+                </div>
+                <button type="submit" class="btn-cadastrar">Salvar Alterações</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Lista de Produtos -->
+    <section class="produtos-section" id="produtos">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">PRODUTOS CADASTRADOS</h2>
+                <button id="addProdutoBtn" class="btn-add" style="display: none;">
+                    <i class="fas fa-plus"></i> Adicionar Produto
+                </button>
+            </div>
+            <div class="section-divider"></div>
+            
+            <div class="produtos-grid" id="produtosLista">
+                <!-- Produtos serão inseridos aqui via JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Sobre -->
+    <section class="sobre-section" id="sobre">
+        <div class="container">
+            <h2 class="section-title">SOBRE O SISTEMA</h2>
+            <div class="section-divider"></div>
+            
+            <div class="sobre-content">
+                <div class="sobre-text">
+                    <p>Sistema de Gerenciamento de Produtos desenvolvido com HTML5, CSS3 e JavaScript, utilizando LocalStorage para armazenamento dos dados.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 Sistema de Gerenciamento de Produtos. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/script.js"></script>
+</body>
+</html> 
