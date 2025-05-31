@@ -2,9 +2,6 @@
 class Autenticacao {
     constructor() {
         this.usuarioAtual = JSON.parse(localStorage.getItem('usuarioAtual')) || null;
-        this.loginModal = document.getElementById('loginModal');
-        this.loginForm = document.getElementById('loginForm');
-        this.loginBtn = document.getElementById('loginBtn');
         this.logoutBtn = document.getElementById('logoutBtn');
         this.userInfo = document.getElementById('userInfo');
         this.userName = document.getElementById('userName');
@@ -15,67 +12,25 @@ class Autenticacao {
     }
 
     inicializarEventos() {
-        this.loginBtn.addEventListener('click', () => this.abrirModal(this.loginModal));
         this.logoutBtn.addEventListener('click', () => this.logout());
-        this.loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            this.login();
-        });
-
-        // Fechar modal ao clicar no X
-        document.querySelectorAll('.close').forEach(closeBtn => {
-            closeBtn.addEventListener('click', () => {
-                this.fecharModal(this.loginModal);
-            });
-        });
-
-        // Fechar modal ao clicar fora
-        window.addEventListener('click', (e) => {
-            if (e.target === this.loginModal) {
-                this.fecharModal(this.loginModal);
-            }
-        });
-    }
-
-    abrirModal(modal) {
-        modal.style.display = 'block';
-    }
-
-    fecharModal(modal) {
-        modal.style.display = 'none';
-    }
-
-    login() {
-        const email = document.getElementById('email').value;
-        const senha = document.getElementById('senha').value;
-
-        // Simulação de autenticação (em um sistema real, isso seria feito no backend)
-        if (email === 'admin@admin.com' && senha === 'admin123') {
-            this.usuarioAtual = { email, nome: 'Administrador' };
-            localStorage.setItem('usuarioAtual', JSON.stringify(this.usuarioAtual));
-            this.fecharModal(this.loginModal);
-            this.atualizarInterface();
-        } else {
-            alert('Email ou senha inválidos!');
-        }
     }
 
     logout() {
         this.usuarioAtual = null;
         localStorage.removeItem('usuarioAtual');
         this.atualizarInterface();
+        window.location.href = 'login.html';
     }
 
     atualizarInterface() {
         if (this.usuarioAtual) {
-            this.loginBtn.style.display = 'none';
             this.userInfo.style.display = 'flex';
             this.userName.textContent = this.usuarioAtual.nome;
             this.addProdutoBtn.style.display = 'block';
         } else {
-            this.loginBtn.style.display = 'block';
             this.userInfo.style.display = 'none';
             this.addProdutoBtn.style.display = 'none';
+            window.location.href = 'login.html';
         }
     }
 }
@@ -167,19 +122,21 @@ class GerenciadorProdutos {
 
     adicionarProduto() {
         const nome = document.getElementById('nome').value;
+        const categoria = document.getElementById('categoria').value;
         const descricao = document.getElementById('descricao').value;
         const preco = parseFloat(document.getElementById('preco').value);
         const quantidade = parseInt(document.getElementById('quantidade').value);
         const fotoInput = document.getElementById('foto');
         const foto = fotoInput.files[0];
 
-        if (!this.validarProduto(nome, descricao, preco, quantidade)) {
+        if (!this.validarProduto(nome, categoria, descricao, preco, quantidade)) {
             return;
         }
 
         const produto = {
             id: Date.now(),
             nome,
+            categoria,
             descricao,
             preco,
             quantidade,
@@ -192,12 +149,12 @@ class GerenciadorProdutos {
         this.fecharModal(this.produtoModal);
     }
 
-    // NOVO: abrir modal de edição preenchido
     editarProduto(id) {
         const produto = this.produtos.find(p => p.id === id);
         if (!produto) return;
         document.getElementById('editarId').value = produto.id;
         document.getElementById('editarNome').value = produto.nome;
+        document.getElementById('editarCategoria').value = produto.categoria;
         document.getElementById('editarDescricao').value = produto.descricao;
         document.getElementById('editarPreco').value = produto.preco;
         document.getElementById('editarQuantidade').value = produto.quantidade;
@@ -205,23 +162,24 @@ class GerenciadorProdutos {
         this.abrirModal(this.editarProdutoModal);
     }
 
-    // NOVO: salvar edição
     salvarEdicaoProduto() {
         const id = parseInt(document.getElementById('editarId').value);
         const nome = document.getElementById('editarNome').value;
+        const categoria = document.getElementById('editarCategoria').value;
         const descricao = document.getElementById('editarDescricao').value;
         const preco = parseFloat(document.getElementById('editarPreco').value);
         const quantidade = parseInt(document.getElementById('editarQuantidade').value);
         const fotoInput = document.getElementById('editarFoto');
         const foto = fotoInput.files[0];
 
-        if (!this.validarProduto(nome, descricao, preco, quantidade)) {
+        if (!this.validarProduto(nome, categoria, descricao, preco, quantidade)) {
             return;
         }
 
         const produto = this.produtos.find(p => p.id === id);
         if (!produto) return;
         produto.nome = nome;
+        produto.categoria = categoria;
         produto.descricao = descricao;
         produto.preco = preco;
         produto.quantidade = quantidade;
@@ -252,12 +210,11 @@ class GerenciadorProdutos {
             const card = document.createElement('div');
             card.className = 'produto-card';
             card.innerHTML = `
-                ${produto.foto ? `
-                    <div class="produto-img">
-                        <img src="${produto.foto}" alt="${produto.nome}">
-                    </div>
-                ` : ''}
+                <div class="produto-img">
+                    <img src="${produto.foto || 'assets/img/no-image.png'}" alt="${produto.nome}">
+                </div>
                 <div class="produto-info">
+                    <div class="produto-categoria">${produto.categoria}</div>
                     <h3 class="produto-title">${produto.nome}</h3>
                     <p class="produto-desc">${produto.descricao}</p>
                     <div class="produto-valor">
@@ -278,8 +235,8 @@ class GerenciadorProdutos {
         });
     }
 
-    validarProduto(nome, descricao, preco, quantidade) {
-        if (!nome || !descricao || !preco || !quantidade) {
+    validarProduto(nome, categoria, descricao, preco, quantidade) {
+        if (!nome || !categoria || !descricao || !preco || !quantidade) {
             alert('Por favor, preencha todos os campos.');
             return false;
         }

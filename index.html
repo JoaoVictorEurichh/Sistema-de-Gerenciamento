@@ -15,47 +15,26 @@
         <div class="container">
             <div class="logo-container">
                 <a href="index.html" class="logo">
-                    <h1>Sistema de Produtos</h1>
+                    <h1><i class="fas fa-box-open"></i> GestãoProdutos</h1>
                 </a>
             </div>
             
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="index.html" class="active">INÍCIO</a></li>
-                    <li><a href="#produtos">PRODUTOS</a></li>
-                    <li><a href="#sobre">SOBRE</a></li>
-                </ul>
-            </nav>
-
-            <div class="user-actions">
-                <div id="userInfo" style="display: none;">
-                    <span id="userName"></span>
-                    <button id="logoutBtn" class="btn-logout">Sair</button>
+            <div class="header-actions">
+                <div class="search-container">
+                    <input type="text" placeholder="Buscar produtos..." class="search-input">
+                    <button class="search-btn"><i class="fas fa-search"></i></button>
                 </div>
-                <button id="loginBtn" class="btn-login">Entrar</button>
+
+                <div class="user-actions">
+                    <div id="userInfo" style="display: none;">
+                        <span class="user-role">Administrador</span>
+                        <span id="userName"></span>
+                        <button id="logoutBtn" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Sair</button>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
-
-    <!-- Modal de Login -->
-    <div id="loginModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Login</h2>
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="senha">Senha:</label>
-                    <input type="password" id="senha" required>
-                </div>
-                <button type="submit" class="btn-login">Entrar</button>
-            </form>
-        </div>
-    </div>
-
     <!-- Modal de Cadastro de Produto -->
     <div id="produtoModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="tituloModalProduto">
         <div class="modal-content">
@@ -63,27 +42,58 @@
             <h2 id="tituloModalProduto">Cadastrar Produto</h2>
             <form id="produtoForm">
                 <div class="form-group">
-                    <label for="nome">Nome do Produto:</label>
+                    <label for="nome">
+                        <i class="fas fa-box"></i>
+                        Nome do Produto:
+                    </label>
                     <input type="text" id="nome" name="nome" required>
                 </div>
                 <div class="form-group">
-                    <label for="descricao">Descrição:</label>
+                    <label for="categoria">
+                        <i class="fas fa-tags"></i>
+                        Categoria:
+                    </label>
+                    <select id="categoria" name="categoria" required>
+                        <option value="">Selecione uma categoria</option>
+                        <option value="Pistola">Pistola</option>
+                        <option value="Rifle">Rifle</option>
+                        <option value="Acessório">Acessório</option>
+                        <option value="outros">Outros</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="descricao">
+                        <i class="fas fa-align-left"></i>
+                        Descrição:
+                    </label>
                     <textarea id="descricao" name="descricao" required></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="preco">Preço:</label>
+                    <label for="preco">
+                        <i class="fas fa-dollar-sign"></i>
+                        Preço:
+                    </label>
                     <input type="number" id="preco" name="preco" step="0.01" required>
                 </div>
                 <div class="form-group">
-                    <label for="quantidade">Quantidade:</label>
+                    <label for="quantidade">
+                        <i class="fas fa-cubes"></i>
+                        Quantidade:
+                    </label>
                     <input type="number" id="quantidade" name="quantidade" required>
                 </div>
                 <div class="form-group">
-                    <label for="foto">Foto do Produto:</label>
+                    <label for="foto">
+                        <i class="fas fa-camera"></i>
+                        Foto do Produto:
+                    </label>
                     <input type="file" id="foto" name="foto" accept="image/*">
                     <div id="previewContainer" class="preview-container"></div>
                 </div>
-                <button type="submit" class="btn-cadastrar">Cadastrar Produto</button>
+                <button type="submit" class="btn-cadastrar">
+                    <i class="fas fa-plus"></i>
+                    Cadastrar Produto
+                </button>
             </form>
         </div>
     </div>
@@ -96,27 +106,58 @@
             <form id="editarProdutoForm">
                 <input type="hidden" id="editarId">
                 <div class="form-group">
-                    <label for="editarNome">Nome do Produto:</label>
+                    <label for="editarNome">
+                        <i class="fas fa-box"></i>
+                        Nome do Produto:
+                    </label>
                     <input type="text" id="editarNome" name="editarNome" required>
                 </div>
                 <div class="form-group">
-                    <label for="editarDescricao">Descrição:</label>
+                    <label for="editarCategoria">
+                        <i class="fas fa-tags"></i>
+                        Categoria:
+                    </label>
+                    <select id="editarCategoria" name="editarCategoria" required>
+                        <option value="">Selecione uma categoria</option>
+                        <option value="Pistola">Pistola</option>
+                        <option value="Rifle">Rifle</option>
+                        <option value="Acessório">Acessório</option>
+                        <option value="outros">Outros</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editarDescricao">
+                        <i class="fas fa-align-left"></i>
+                        Descrição:
+                    </label>
                     <textarea id="editarDescricao" name="editarDescricao" required></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="editarPreco">Preço:</label>
+                    <label for="editarPreco">
+                        <i class="fas fa-dollar-sign"></i>
+                        Preço:
+                    </label>
                     <input type="number" id="editarPreco" name="editarPreco" step="0.01" required>
                 </div>
                 <div class="form-group">
-                    <label for="editarQuantidade">Quantidade:</label>
+                    <label for="editarQuantidade">
+                        <i class="fas fa-cubes"></i>
+                        Quantidade:
+                    </label>
                     <input type="number" id="editarQuantidade" name="editarQuantidade" required>
                 </div>
                 <div class="form-group">
-                    <label for="editarFoto">Foto do Produto:</label>
+                    <label for="editarFoto">
+                        <i class="fas fa-camera"></i>
+                        Foto do Produto:
+                    </label>
                     <input type="file" id="editarFoto" name="editarFoto" accept="image/*">
                     <div id="editarPreviewContainer" class="preview-container"></div>
                 </div>
-                <button type="submit" class="btn-cadastrar">Salvar Alterações</button>
+                <button type="submit" class="btn-cadastrar">
+                    <i class="fas fa-save"></i>
+                    Salvar Alterações
+                </button>
             </form>
         </div>
     </div>
@@ -137,29 +178,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Sobre -->
-    <section class="sobre-section" id="sobre">
-        <div class="container">
-            <h2 class="section-title">SOBRE O SISTEMA</h2>
-            <div class="section-divider"></div>
-            
-            <div class="sobre-content">
-                <div class="sobre-text">
-                    <p>Sistema de Gerenciamento de Produtos desenvolvido com HTML5, CSS3 e JavaScript, utilizando LocalStorage para armazenamento dos dados.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="main-footer">
-        <div class="container">
-            <div class="footer-bottom">
-                <p>&copy; 2024 Sistema de Gerenciamento de Produtos. Todos os direitos reservados.</p>
-            </div>
-        </div>
-    </footer>
 
     <script src="assets/js/script.js"></script>
 </body>
