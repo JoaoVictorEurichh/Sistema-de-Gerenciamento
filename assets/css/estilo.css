@@ -262,21 +262,9 @@ a {
     right: 20px;
     top: 20px;
     font-size: 24px;
-    color: #fff;
+    color: #ff6b6b !important;
     cursor: pointer;
-    opacity: 0.7;
-    transition: opacity 0.3s ease;
     padding: 8px;
-}
-
-.close:hover,
-.close:focus {
-    opacity: 1;
-}
-
-.close:focus-visible {
-    outline: 2px solid #ff6b6b;
-    outline-offset: 2px;
 }
 
 .modal h2 {
@@ -503,8 +491,10 @@ a {
     display: flex;
     gap: 10px;
     margin-top: 20px;
+    flex-wrap: wrap;
 }
 
+.btn-vender,
 .btn-editar,
 .btn-excluir {
     padding: 10px 20px;
@@ -519,6 +509,14 @@ a {
     gap: 8px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    flex: 1;
+    justify-content: center;
+}
+
+.btn-vender {
+    background: linear-gradient(45deg, #27ae60, #2ecc71);
+    color: white;
+    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
 }
 
 .btn-editar {
@@ -533,6 +531,12 @@ a {
     box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
 }
 
+.btn-vender:hover,
+.btn-vender:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
+}
+
 .btn-editar:hover,
 .btn-editar:focus {
     transform: translateY(-2px);
@@ -545,6 +549,7 @@ a {
     box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
 }
 
+.btn-vender:focus-visible,
 .btn-editar:focus-visible,
 .btn-excluir:focus-visible {
     outline: 2px solid #fff;
@@ -688,9 +693,9 @@ a {
     background: #2d2d2d;
     border: 2px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
-    padding: 8px 0;
+    padding: 15px;
     margin-top: 8px;
-    min-width: 200px;
+    min-width: 250px;
     display: none;
     z-index: 1000;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -698,36 +703,52 @@ a {
 
 .filtro-dropdown.show {
     display: block;
-    animation: fadeIn 0.3s ease;
+}
+
+.filtro-section {
+    margin-bottom: 15px;
+}
+
+.filtro-section:last-child {
+    margin-bottom: 0;
+}
+
+.filtro-section h4 {
+    color: #ff6b6b;
+    font-size: 14px;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .filtro-option {
     display: block;
     width: 100%;
-    padding: 12px 20px;
+    padding: 8px 15px;
     background: none;
     border: none;
     color: rgba(255, 255, 255, 0.9);
     text-align: left;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-size: 16px;
+    font-size: 14px;
+    border-radius: 4px;
 }
 
 .filtro-option:hover,
 .filtro-option:focus {
     background: rgba(255, 255, 255, 0.1);
-    color: #3498db;
+    color: #ff6b6b;
 }
 
 .filtro-option:focus-visible {
-    outline: 2px solid #3498db;
+    outline: 2px solid #ff6b6b;
     outline-offset: -2px;
 }
 
 .filtro-option.active {
-    background: rgba(52, 152, 219, 0.2);
-    color: #3498db;
+    background: rgba(255, 107, 107, 0.2);
+    color: #ff6b6b;
     font-weight: 600;
 }
 
@@ -1020,9 +1041,136 @@ input[type="number"] {
         flex-direction: column;
     }
 
+    .btn-vender,
     .btn-editar,
     .btn-excluir {
         width: 100%;
-        justify-content: center;
     }
+}
+
+.relatorios-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 10px;
+}
+
+.tab-btn {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+}
+
+.tab-btn:hover {
+    color: #ff6b6b;
+    background: rgba(255, 107, 107, 0.1);
+}
+
+.tab-btn.active {
+    color: #ff6b6b;
+    background: rgba(255, 107, 107, 0.2);
+}
+
+.relatorio-tab {
+    display: none;
+}
+
+.relatorio-tab.active {
+    display: block;
+}
+
+.produtos-mais-vendidos {
+    display: grid;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.produto-vendido {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.produto-vendido-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.produto-vendido-nome {
+    font-weight: 600;
+    color: #fff;
+}
+
+.produto-vendido-quantidade {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+}
+
+.produto-vendido-valor {
+    color: #ff6b6b;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .relatorios-tabs {
+        flex-direction: column;
+    }
+
+    .tab-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .produto-vendido {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+}
+
+/* Acessibilidade: foco visível para todos os botões, inputs e elementos interativos */
+button:focus, input:focus, select:focus, textarea:focus, .filtro-option:focus, .tab-btn:focus, .close:focus {
+  outline: 3px solid #1976d2;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px #90caf9;
+  z-index: 2;
+}
+
+/* Melhor contraste para botões ao focar */
+.btn-cadastrar:focus, .btn-add:focus, .btn-filtro:focus, .btn-relatorios:focus, .btn-vender:focus, .btn-editar:focus, .btn-excluir:focus {
+  filter: brightness(1.1) contrast(1.2);
+}
+
+/* Aumentar área de clique para botões de fechar modais */
+.close {
+  cursor: pointer;
+  min-width: 32px;
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Exibir texto alternativo (alt) das imagens em branco quando a imagem não carregar */
+img {
+  color: #fff !important;
+  background: #222;
+}
+
+/* Para garantir contraste e centralização do alt em containers de imagem */
+.produto-img, .preview-container {
+  color: #fff;
+  background: #222;
+  text-align: center;
 } 

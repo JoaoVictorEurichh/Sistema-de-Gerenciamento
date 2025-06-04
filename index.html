@@ -11,22 +11,23 @@
 </head>
 <body>
     <!-- Header -->
-    <header class="main-header">
+    <header class="main-header" role="banner">
         <div class="container">
             <div class="logo-container">
-                    <h1 class="link fas fa-box-open"> GestãoProdutos</h1>
+                <h1 class="link fas fa-box-open" role="heading" aria-level="1"> GestãoProdutos</h1>
             </div>
             
             <div class="header-actions">
                 <div class="search-container">
-                    <input type="text" placeholder="Buscar produtos..." class="search-input">
-                    <button class="search-btn"><i class="fas fa-search"></i></button>
+                    <label for="searchInput" class="sr-only">Buscar produtos</label>
+                    <input type="text" id="searchInput" placeholder="Buscar produtos..." class="search-input" aria-label="Buscar produtos">
+                    <button class="search-btn" aria-label="Buscar"><i class="fas fa-search" aria-hidden="true"></i></button>
                 </div>
 
                 <div class="user-actions">
                     <div id="userInfo" style="display: none;">
-                        <span class="user-role" id="userName">Administrador</span>
-                        <button id="logoutBtn" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Sair</button>
+                        <span class="user-role" id="userName" role="status">Administrador</span>
+                        <button id="logoutBtn" class="btn-logout" aria-label="Sair do sistema"><i class="fas fa-sign-out-alt" aria-hidden="true"></i> Sair</button>
                     </div>
                 </div>
             </div>
@@ -35,25 +36,25 @@
     <!-- Modal de Cadastro de Produto -->
     <div id="produtoModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="tituloModalProduto">
         <div class="modal-content">
-            <span class="close" aria-label="Fechar modal">&times;</span>
+            <span class="close" aria-label="Fechar modal" tabindex="0" role="button">&times;</span>
             <h2 id="tituloModalProduto">Cadastrar Produto</h2>
             <form id="produtoForm">
                 <div class="form-group">
-                    <label for="nome">
-                        <i class="fas fa-box"></i>
+                    <label for="nome" id="labelNome">
+                        <i class="fas fa-box" aria-hidden="true"></i>
                         Nome do Produto:
                     </label>
-                    <input type="text" id="nome" name="nome" required>
+                    <input type="text" id="nome" name="nome" required aria-labelledby="labelNome">
                 </div>
                 <div class="form-group">
-                    <label for="categoria">
-                        <i class="fas fa-tags"></i>
+                    <label for="categoria" id="labelCategoria">
+                        <i class="fas fa-tags" aria-hidden="true"></i>
                         Categoria:
                     </label>
-                    <select id="categoria" name="categoria" required>
+                    <select id="categoria" name="categoria" required aria-labelledby="labelCategoria">
                         <option value="">Selecione uma categoria</option>
                         <option value="Pistola">Pistola</option>
-                        <option value="REVÓLVER">Revólver </option>
+                        <option value="REVÓLVER">Revólver</option>
                         <option value="CARABINAS">Carabina</option>
                         <option value="ESPINGARDAS">Espingarda</option>
                         <option value="Rifle">Rifle</option>
@@ -65,36 +66,63 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="descricao">
-                        <i class="fas fa-align-left"></i>
+                    <label for="fabricante" id="labelFabricante">
+                        <i class="fas fa-industry" aria-hidden="true"></i>
+                        Fabricante:
+                    </label>
+                    <select id="fabricante" name="fabricante" required aria-labelledby="labelFabricante">
+                        <option value="">Selecione um fabricante</option>
+                        <option value="TAURUS">Taurus</option>
+                        <option value="IMBEL">IMBEL</option>
+                        <option value="ROSSI">Rossi</option>
+                        <option value="GLOCK">Glock</option>
+                        <option value="BERETTA">Beretta</option>
+                        <option value="COLT">Colt</option>
+                        <option value="SMITH_WESSON">Smith & Wesson</option>
+                        <option value="WINCHESTER">Winchester</option>
+                        <option value="REMINGTON">Remington</option>
+                        <option value="outros">Outros</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="descricao" id="labelDescricao">
+                        <i class="fas fa-align-left" aria-hidden="true"></i>
                         Descrição:
                     </label>
-                    <textarea id="descricao" name="descricao" required></textarea>
+                    <textarea id="descricao" name="descricao" required aria-labelledby="labelDescricao"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="preco">
-                        <i class="fas fa-dollar-sign"></i>
+                    <label for="preco" id="labelPreco">
+                        <i class="fas fa-dollar-sign" aria-hidden="true"></i>
                         Preço:
                     </label>
-                    <input type="number" id="preco" name="preco" step="0.01" required>
+                    <div class="input-group">
+                        <button type="button" class="btn-incremento" onclick="gerenciadorProdutos.decrementarPreco()" aria-label="Diminuir preço">-</button>
+                        <input type="number" id="preco" name="preco" step="0.01" required aria-labelledby="labelPreco">
+                        <button type="button" class="btn-incremento" onclick="gerenciadorProdutos.incrementarPreco()" aria-label="Aumentar preço">+</button>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="quantidade">
-                        <i class="fas fa-cubes"></i>
+                    <label for="quantidade" id="labelQuantidade">
+                        <i class="fas fa-cubes" aria-hidden="true"></i>
                         Quantidade:
                     </label>
-                    <input type="number" id="quantidade" name="quantidade" required>
+                    <div class="input-group">
+                        <button type="button" class="btn-incremento" onclick="gerenciadorProdutos.decrementarQuantidade()" aria-label="Diminuir quantidade">-</button>
+                        <input type="number" id="quantidade" name="quantidade" required aria-labelledby="labelQuantidade">
+                        <button type="button" class="btn-incremento" onclick="gerenciadorProdutos.incrementarQuantidade()" aria-label="Aumentar quantidade">+</button>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="foto">
-                        <i class="fas fa-camera"></i>
+                    <label for="foto" id="labelFoto">
+                        <i class="fas fa-camera" aria-hidden="true"></i>
                         Foto do Produto:
                     </label>
-                    <input type="file" id="foto" name="foto" accept="image/*">
-                    <div id="previewContainer" class="preview-container"></div>
+                    <input type="file" id="foto" name="foto" accept="image/*" aria-labelledby="labelFoto">
+                    <div id="previewContainer" class="preview-container" role="img" aria-label="Preview da imagem"></div>
                 </div>
                 <button type="submit" class="btn-cadastrar">
-                    <i class="fas fa-plus"></i>
+                    <i class="fas fa-plus" aria-hidden="true"></i>
                     Cadastrar Produto
                 </button>
             </form>
@@ -131,6 +159,25 @@
                         <option value="Acessório">Acessório</option>
                         <option value="MUNIÇÃO">Munição</option>
                         <option value="CARREGADORES">Carregadores</option>
+                        <option value="outros">Outros</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editarFabricante">
+                        <i class="fas fa-industry"></i>
+                        Fabricante:
+                    </label>
+                    <select id="editarFabricante" name="editarFabricante" required>
+                        <option value="">Selecione um fabricante</option>
+                        <option value="TAURUS">Taurus</option>
+                        <option value="IMBEL">IMBEL</option>
+                        <option value="ROSSI">Rossi</option>
+                        <option value="GLOCK">Glock</option>
+                        <option value="BERETTA">Beretta</option>
+                        <option value="COLT">Colt</option>
+                        <option value="SMITH_WESSON">Smith & Wesson</option>
+                        <option value="WINCHESTER">Winchester</option>
+                        <option value="REMINGTON">Remington</option>
                         <option value="outros">Outros</option>
                     </select>
                 </div>
@@ -172,34 +219,55 @@
     </div>
 
     <!-- Lista de Produtos -->
-    <section class="produtos-section" id="produtos">
+    <section class="produtos-section" id="produtos" role="main">
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">PRODUTOS CADASTRADOS</h2>
                 <div class="header-buttons">
                     <div class="filtro-container">
-                        <button id="filtroBtn" class="btn-filtro">
-                            <i class="fas fa-filter"></i> Filtrar por Categoria
+                        <button id="filtroBtn" class="btn-filtro" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-filter" aria-hidden="true"></i> Filtrar
                         </button>
-                        <div id="filtroDropdown" class="filtro-dropdown">
-                            <button class="filtro-option" data-categoria="todos">Todos</button>
-                            <button class="filtro-option" data-categoria="Pistola">Pistolas</button>
-                            <button class="filtro-option" data-categoria="Rifle">Rifles</button>
-                            <button class="filtro-option" data-categoria="Acessório">Acessórios</button>
-                            <button class="filtro-option" data-categoria="outros">Outros</button>
+                        <div id="filtroDropdown" class="filtro-dropdown" role="menu" aria-labelledby="filtroBtn">
+                            <div class="filtro-section">
+                                <h4>Categorias</h4>
+                                <button class="filtro-option" data-tipo="categoria" data-valor="todos" role="menuitem">Todas as Categorias</button>
+                                <button class="filtro-option" data-tipo="categoria" data-valor="Pistola" role="menuitem">Pistolas</button>
+                                <button class="filtro-option" data-tipo="categoria" data-valor="REVÓLVER" role="menuitem">Revólveres</button>
+                                <button class="filtro-option" data-tipo="categoria" data-valor="CARABINAS" role="menuitem">Carabinas</button>
+                                <button class="filtro-option" data-tipo="categoria" data-valor="ESPINGARDAS" role="menuitem">Espingardas</button>
+                                <button class="filtro-option" data-tipo="categoria" data-valor="Rifle" role="menuitem">Rifles</button>
+                                <button class="filtro-option" data-tipo="categoria" data-valor="FUZIL" role="menuitem">Fuzis</button>
+                                <button class="filtro-option" data-tipo="categoria" data-valor="Acessório" role="menuitem">Acessórios</button>
+                                <button class="filtro-option" data-tipo="categoria" data-valor="MUNIÇÃO" role="menuitem">Munições</button>
+                                <button class="filtro-option" data-tipo="categoria" data-valor="CARREGADORES" role="menuitem">Carregadores</button>
+                            </div>
+                            <div class="filtro-section">
+                                <h4>Fabricantes</h4>
+                                <button class="filtro-option" data-tipo="fabricante" data-valor="todos" role="menuitem">Todos os Fabricantes</button>
+                                <button class="filtro-option" data-tipo="fabricante" data-valor="TAURUS" role="menuitem">Taurus</button>
+                                <button class="filtro-option" data-tipo="fabricante" data-valor="IMBEL" role="menuitem">IMBEL</button>
+                                <button class="filtro-option" data-tipo="fabricante" data-valor="ROSSI" role="menuitem">Rossi</button>
+                                <button class="filtro-option" data-tipo="fabricante" data-valor="GLOCK" role="menuitem">Glock</button>
+                                <button class="filtro-option" data-tipo="fabricante" data-valor="BERETTA" role="menuitem">Beretta</button>
+                                <button class="filtro-option" data-tipo="fabricante" data-valor="COLT" role="menuitem">Colt</button>
+                                <button class="filtro-option" data-tipo="fabricante" data-valor="SMITH_WESSON" role="menuitem">Smith & Wesson</button>
+                                <button class="filtro-option" data-tipo="fabricante" data-valor="WINCHESTER" role="menuitem">Winchester</button>
+                                <button class="filtro-option" data-tipo="fabricante" data-valor="REMINGTON" role="menuitem">Remington</button>
+                            </div>
                         </div>
                     </div>
-                    <button id="relatoriosBtn" class="btn-relatorios">
-                        <i class="fas fa-chart-bar"></i> Relatórios de Estoque
+                    <button id="relatoriosBtn" class="btn-relatorios" aria-label="Abrir relatórios">
+                        <i class="fas fa-chart-bar" aria-hidden="true"></i> Relatórios de Estoque
                     </button>
-                    <button id="addProdutoBtn" class="btn-add" style="display: none;">
-                        <i class="fas fa-plus"></i> Adicionar Produto
+                    <button id="addProdutoBtn" class="btn-add" style="display: none;" aria-label="Adicionar novo produto">
+                        <i class="fas fa-plus" aria-hidden="true"></i> Adicionar Produto
                     </button>
                 </div>
             </div>
             <div class="section-divider"></div>
             
-            <div class="produtos-grid" id="produtosLista">
+            <div class="produtos-grid" id="produtosLista" role="list">
                 <!-- Produtos serão inseridos aqui via JavaScript -->
             </div>
         </div>
@@ -209,44 +277,123 @@
     <div id="relatoriosModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="tituloModalRelatorios">
         <div class="modal-content">
             <span class="close" aria-label="Fechar modal">&times;</span>
-            <h2 id="tituloModalRelatorios">Relatórios de Estoque por Categoria</h2>
-            <div class="relatorios-container">
-                <div class="categoria-relatorio">
-                    <h3>Pistolas</h3>
-                    <div class="relatorio-info">
-                        <p>Total em Estoque: <span id="totalPistolas">0</span></p>
-                        <p>Valor Total: R$ <span id="valorPistolas">0.00</span></p>
+            <h2 id="tituloModalRelatorios">Relatórios</h2>
+            <div class="relatorios-tabs">
+                <button class="tab-btn active" data-tab="estoque">Estoque</button>
+                <button class="tab-btn" data-tab="vendas">Vendas</button>
+            </div>
+            
+            <div id="relatorioEstoque" class="relatorio-tab active">
+                <div class="relatorios-container">
+                    <div class="categoria-relatorio">
+                        <h3>Pistolas</h3>
+                        <div class="relatorio-info">
+                            <p>Total em Estoque: <span id="totalPistolas">0</span></p>
+                            <p>Valor Total: R$ <span id="valorPistolas">0.00</span></p>
+                        </div>
                     </div>
-                </div>
-                <div class="categoria-relatorio">
-                    <h3>Rifles</h3>
-                    <div class="relatorio-info">
-                        <p>Total em Estoque: <span id="totalRifles">0</span></p>
-                        <p>Valor Total: R$ <span id="valorRifles">0.00</span></p>
+                    <div class="categoria-relatorio">
+                        <h3>Rifles</h3>
+                        <div class="relatorio-info">
+                            <p>Total em Estoque: <span id="totalRifles">0</span></p>
+                            <p>Valor Total: R$ <span id="valorRifles">0.00</span></p>
+                        </div>
                     </div>
-                </div>
-                <div class="categoria-relatorio">
-                    <h3>Acessórios</h3>
-                    <div class="relatorio-info">
-                        <p>Total em Estoque: <span id="totalAcessorios">0</span></p>
-                        <p>Valor Total: R$ <span id="valorAcessorios">0.00</span></p>
+                    <div class="categoria-relatorio">
+                        <h3>Acessórios</h3>
+                        <div class="relatorio-info">
+                            <p>Total em Estoque: <span id="totalAcessorios">0</span></p>
+                            <p>Valor Total: R$ <span id="valorAcessorios">0.00</span></p>
+                        </div>
                     </div>
-                </div>
-                <div class="categoria-relatorio">
-                    <h3>Outros</h3>
-                    <div class="relatorio-info">
-                        <p>Total em Estoque: <span id="totalOutros">0</span></p>
-                        <p>Valor Total: R$ <span id="valorOutros">0.00</span></p>
+                    <div class="categoria-relatorio">
+                        <h3>Outros</h3>
+                        <div class="relatorio-info">
+                            <p>Total em Estoque: <span id="totalOutros">0</span></p>
+                            <p>Valor Total: R$ <span id="valorOutros">0.00</span></p>
+                        </div>
                     </div>
-                </div>
-                <div class="relatorio-total">
-                    <h3>Total Geral</h3>
-                    <div class="relatorio-info">
-                        <p>Total em Estoque: <span id="totalGeral">0</span></p>
-                        <p>Valor Total: R$ <span id="valorGeral">0.00</span></p>
+                    <div class="relatorio-total">
+                        <h3>Total Geral</h3>
+                        <div class="relatorio-info">
+                            <p>Total em Estoque: <span id="totalGeral">0</span></p>
+                            <p>Valor Total: R$ <span id="valorGeral">0.00</span></p>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <div id="relatorioVendas" class="relatorio-tab">
+                <div class="relatorios-container">
+                    <div class="categoria-relatorio">
+                        <h3>Vendas do Dia</h3>
+                        <div class="relatorio-info">
+                            <p>Quantidade Vendida: <span id="totalVendasDia">0</span></p>
+                            <p>Valor Total: R$ <span id="valorVendasDia">0.00</span></p>
+                        </div>
+                    </div>
+                    <div class="categoria-relatorio">
+                        <h3>Vendas da Semana</h3>
+                        <div class="relatorio-info">
+                            <p>Quantidade Vendida: <span id="totalVendasSemana">0</span></p>
+                            <p>Valor Total: R$ <span id="valorVendasSemana">0.00</span></p>
+                        </div>
+                    </div>
+                    <div class="categoria-relatorio">
+                        <h3>Vendas do Mês</h3>
+                        <div class="relatorio-info">
+                            <p>Quantidade Vendida: <span id="totalVendasMes">0</span></p>
+                            <p>Valor Total: R$ <span id="valorVendasMes">0.00</span></p>
+                        </div>
+                    </div>
+                    <div class="relatorio-total">
+                        <h3>Produtos Mais Vendidos</h3>
+                        <div id="produtosMaisVendidos" class="produtos-mais-vendidos">
+                            <!-- Lista de produtos mais vendidos será inserida aqui via JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Venda -->
+    <div id="vendaModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="tituloModalVenda">
+        <div class="modal-content">
+            <span class="close" aria-label="Fechar modal" tabindex="0" role="button">&times;</span>
+            <h2 id="tituloModalVenda">Registrar Venda</h2>
+            <form id="vendaForm">
+                <input type="hidden" id="vendaProdutoId">
+                <div class="form-group">
+                    <label for="vendaQuantidade" id="labelVendaQuantidade">
+                        <i class="fas fa-cubes" aria-hidden="true"></i>
+                        Quantidade:
+                    </label>
+                    <div class="input-group">
+                        <button type="button" class="btn-incremento" onclick="gerenciadorProdutos.decrementarQuantidadeVenda()" aria-label="Diminuir quantidade">-</button>
+                        <input type="number" id="vendaQuantidade" name="vendaQuantidade" min="1" required aria-labelledby="labelVendaQuantidade">
+                        <button type="button" class="btn-incremento" onclick="gerenciadorProdutos.incrementarQuantidadeVenda()" aria-label="Aumentar quantidade">+</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="vendaValor" id="labelVendaValor">
+                        <i class="fas fa-dollar-sign" aria-hidden="true"></i>
+                        Valor Unitário:
+                    </label>
+                    <input type="number" id="vendaValor" name="vendaValor" step="0.01" readonly aria-labelledby="labelVendaValor">
+                </div>
+                <div class="form-group">
+                    <label for="vendaTotal" id="labelVendaTotal">
+                        <i class="fas fa-calculator" aria-hidden="true"></i>
+                        Valor Total:
+                    </label>
+                    <input type="number" id="vendaTotal" name="vendaTotal" step="0.01" readonly aria-labelledby="labelVendaTotal">
+                </div>
+                <button type="submit" class="btn-cadastrar">
+                    <i class="fas fa-check" aria-hidden="true"></i>
+                    Confirmar Venda
+                </button>
+            </form>
         </div>
     </div>
 

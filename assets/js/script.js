@@ -48,12 +48,19 @@ class GerenciadorProdutos {
         this.searchBtn = document.querySelector('.search-btn');
         this.filtroBtn = document.getElementById('filtroBtn');
         this.filtroDropdown = document.getElementById('filtroDropdown');
-        this.categoriaAtual = 'todos';
+        this.filtroAtual = {
+            categoria: 'todos',
+            fabricante: 'todos'
+        };
 
         // Modal de edição
         this.editarProdutoModal = document.getElementById('editarProdutoModal');
         this.editarProdutoForm = document.getElementById('editarProdutoForm');
         this.editarPreviewContainer = document.getElementById('editarPreviewContainer');
+
+        this.vendaModal = document.getElementById('vendaModal');
+        this.vendaForm = document.getElementById('vendaForm');
+        this.vendas = JSON.parse(localStorage.getItem('vendas')) || [];
 
         this.inicializarEventos();
         this.atualizarListaProdutos();
@@ -120,22 +127,48 @@ class GerenciadorProdutos {
 
         // Eventos do filtro
         this.filtroBtn.addEventListener('click', (e) => {
+            e.preventDefault();
             e.stopPropagation();
             this.filtroDropdown.classList.toggle('show');
         });
 
         document.querySelectorAll('.filtro-option').forEach(option => {
             option.addEventListener('click', (e) => {
+                e.preventDefault();
                 e.stopPropagation();
-                const categoria = e.target.dataset.categoria;
-                this.filtrarPorCategoria(categoria);
+                const tipo = e.target.dataset.tipo;
+                const valor = e.target.dataset.valor;
+                this.filtrarProdutos(tipo, valor);
                 this.filtroDropdown.classList.remove('show');
             });
         });
 
         // Fechar dropdown ao clicar fora
-        document.addEventListener('click', () => {
-            this.filtroDropdown.classList.remove('show');
+        document.addEventListener('click', (e) => {
+            if (!this.filtroBtn.contains(e.target) && !this.filtroDropdown.contains(e.target)) {
+                this.filtroDropdown.classList.remove('show');
+            }
+        });
+
+        // Eventos do modal de venda
+        this.vendaForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.confirmarVenda();
+        });
+
+        this.vendaModal.querySelector('.close').addEventListener('click', () => this.fecharModal(this.vendaModal));
+        window.addEventListener('click', (e) => {
+            if (e.target === this.vendaModal) {
+                this.fecharModal(this.vendaModal);
+            }
+        });
+
+        // Eventos das abas do relatório
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tab = btn.dataset.tab;
+                this.trocarAbaRelatorio(tab);
+            });
         });
     }
 
@@ -268,6 +301,9 @@ class GerenciadorProdutos {
                         <p>Quantidade: ${produto.quantidade}</p>
                     </div>
                     <div class="produto-acoes">
+                        <button class="btn-vender" onclick="gerenciadorProdutos.registrarVenda(${produto.id})">
+                            <i class="fas fa-shopping-cart"></i> Vender
+                        </button>
                         <button class="btn-editar" onclick="gerenciadorProdutos.editarProduto(${produto.id})">
                             <i class="fas fa-edit"></i> Editar
                         </button>
@@ -285,7 +321,7 @@ class GerenciadorProdutos {
         const termoBusca = this.searchInput.value.toLowerCase().trim();
         
         if (!termoBusca) {
-            this.filtrarPorCategoria(this.categoriaAtual);
+            this.filtrarProdutos(this.filtroAtual.categoria, this.filtroAtual.fabricante);
             return;
         }
 
@@ -298,40 +334,52 @@ class GerenciadorProdutos {
                 produto.quantidade.toString().includes(termoBusca)
             );
 
-            const matchCategoria = this.categoriaAtual === 'todos' || 
-                                 produto.categoria === this.categoriaAtual;
+            const matchCategoria = this.filtroAtual.categoria === 'todos' || 
+                                 produto.categoria === this.filtroAtual.categoria;
 
-            return matchBusca && matchCategoria;
+            const matchFabricante = this.filtroAtual.fabricante === 'todos' || 
+                                   produto.fabricante === this.filtroAtual.fabricante;
+
+            return matchBusca && matchCategoria && matchFabricante;
         });
 
         this.atualizarListaProdutos(produtosFiltrados);
     }
 
-    filtrarPorCategoria(categoria) {
-        this.categoriaAtual = categoria;
+    filtrarProdutos(tipo, valor) {
+        this.filtroAtual[tipo] = valor;
         
-        // Atualizar botão ativo
+        // Atualizar botões ativos
         document.querySelectorAll('.filtro-option').forEach(option => {
-            option.classList.toggle('active', option.dataset.categoria === categoria);
+            if (option.dataset.tipo === tipo) {
+                option.classList.toggle('active', option.dataset.valor === valor);
+            }
         });
 
         // Atualizar texto do botão de filtro
-        const textoCategoria = categoria === 'todos' ? 'Todas as Categorias' : 
-            categoria === 'Pistola' ? 'Pistolas' :
-            categoria === 'Rifle' ? 'Rifles' :
-            categoria === 'Acessório' ? 'Acessórios' : 'Outros';
+        const textoCategoria = this.filtroAtual.categoria === 'todos' ? 'Todas as Categorias' : 
+            this.filtroAtual.categoria;
+        const textoFabricante = this.filtroAtual.fabricante === 'todos' ? 'Todos os Fabricantes' : 
+            this.filtroAtual.fabricante;
         
-        this.filtroBtn.innerHTML = `<i class="fas fa-filter"></i> ${textoCategoria}`;
+        this.filtroBtn.innerHTML = `<i class="fas fa-filter"></i> ${textoCategoria} | ${textoFabricante}`;
 
         // Filtrar produtos
-        if (categoria === 'todos') {
-            this.atualizarListaProdutos();
-        } else {
-            const produtosFiltrados = this.produtos.filter(produto => 
-                produto.categoria === categoria
+        let produtosFiltrados = this.produtos;
+
+        if (this.filtroAtual.categoria !== 'todos') {
+            produtosFiltrados = produtosFiltrados.filter(produto => 
+                produto.categoria === this.filtroAtual.categoria
             );
-            this.atualizarListaProdutos(produtosFiltrados);
         }
+
+        if (this.filtroAtual.fabricante !== 'todos') {
+            produtosFiltrados = produtosFiltrados.filter(produto => 
+                produto.fabricante === this.filtroAtual.fabricante
+            );
+        }
+
+        this.atualizarListaProdutos(produtosFiltrados);
     }
 
     validarProduto(nome, categoria, descricao, preco, quantidade) {
@@ -411,6 +459,142 @@ class GerenciadorProdutos {
         if (valorAtual > 0) {
             quantidadeInput.value = valorAtual - 1;
         }
+    }
+
+    registrarVenda(id) {
+        const produto = this.produtos.find(p => p.id === id);
+        if (!produto) return;
+
+        document.getElementById('vendaProdutoId').value = id;
+        document.getElementById('vendaQuantidade').value = 1;
+        document.getElementById('vendaValor').value = produto.preco;
+        document.getElementById('vendaTotal').value = produto.preco;
+
+        this.abrirModal(this.vendaModal);
+    }
+
+    incrementarQuantidadeVenda() {
+        const input = document.getElementById('vendaQuantidade');
+        const valorAtual = parseInt(input.value) || 0;
+        const produto = this.produtos.find(p => p.id === parseInt(document.getElementById('vendaProdutoId').value));
+        
+        if (valorAtual < produto.quantidade) {
+            input.value = valorAtual + 1;
+            this.atualizarValorTotalVenda();
+        }
+    }
+
+    decrementarQuantidadeVenda() {
+        const input = document.getElementById('vendaQuantidade');
+        const valorAtual = parseInt(input.value) || 0;
+        if (valorAtual > 1) {
+            input.value = valorAtual - 1;
+            this.atualizarValorTotalVenda();
+        }
+    }
+
+    atualizarValorTotalVenda() {
+        const quantidade = parseInt(document.getElementById('vendaQuantidade').value) || 0;
+        const valorUnitario = parseFloat(document.getElementById('vendaValor').value) || 0;
+        document.getElementById('vendaTotal').value = (quantidade * valorUnitario).toFixed(2);
+    }
+
+    confirmarVenda() {
+        const id = parseInt(document.getElementById('vendaProdutoId').value);
+        const quantidade = parseInt(document.getElementById('vendaQuantidade').value);
+        const valorUnitario = parseFloat(document.getElementById('vendaValor').value);
+        const valorTotal = parseFloat(document.getElementById('vendaTotal').value);
+
+        const produto = this.produtos.find(p => p.id === id);
+        if (!produto || produto.quantidade < quantidade) {
+            alert('Quantidade insuficiente em estoque!');
+            return;
+        }
+
+        // Atualizar estoque
+        produto.quantidade -= quantidade;
+        this.salvarProdutos();
+
+        // Registrar venda
+        const venda = {
+            id: Date.now(),
+            produtoId: id,
+            produtoNome: produto.nome,
+            quantidade,
+            valorUnitario,
+            valorTotal,
+            data: new Date().toISOString()
+        };
+        this.vendas.push(venda);
+        localStorage.setItem('vendas', JSON.stringify(this.vendas));
+
+        this.fecharModal(this.vendaModal);
+        this.atualizarListaProdutos();
+        alert('Venda registrada com sucesso!');
+    }
+
+    trocarAbaRelatorio(tab) {
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.tab === tab);
+        });
+
+        document.querySelectorAll('.relatorio-tab').forEach(tabEl => {
+            tabEl.classList.toggle('active', tabEl.id === `relatorio${tab.charAt(0).toUpperCase() + tab.slice(1)}`);
+        });
+
+        if (tab === 'vendas') {
+            this.atualizarRelatorioVendas();
+        }
+    }
+
+    atualizarRelatorioVendas() {
+        const hoje = new Date();
+        const inicioDia = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate());
+        const inicioSemana = new Date(hoje.setDate(hoje.getDate() - hoje.getDay()));
+        const inicioMes = new Date(hoje.getFullYear(), hoje.getMonth(), 1);
+
+        const vendasDia = this.vendas.filter(v => new Date(v.data) >= inicioDia);
+        const vendasSemana = this.vendas.filter(v => new Date(v.data) >= inicioSemana);
+        const vendasMes = this.vendas.filter(v => new Date(v.data) >= inicioMes);
+
+        // Atualizar totais
+        document.getElementById('totalVendasDia').textContent = vendasDia.reduce((acc, v) => acc + v.quantidade, 0);
+        document.getElementById('valorVendasDia').textContent = vendasDia.reduce((acc, v) => acc + v.valorTotal, 0).toFixed(2);
+
+        document.getElementById('totalVendasSemana').textContent = vendasSemana.reduce((acc, v) => acc + v.quantidade, 0);
+        document.getElementById('valorVendasSemana').textContent = vendasSemana.reduce((acc, v) => acc + v.valorTotal, 0).toFixed(2);
+
+        document.getElementById('totalVendasMes').textContent = vendasMes.reduce((acc, v) => acc + v.quantidade, 0);
+        document.getElementById('valorVendasMes').textContent = vendasMes.reduce((acc, v) => acc + v.valorTotal, 0).toFixed(2);
+
+        // Atualizar produtos mais vendidos
+        const produtosMaisVendidos = this.vendas.reduce((acc, venda) => {
+            const index = acc.findIndex(p => p.produtoId === venda.produtoId);
+            if (index === -1) {
+                acc.push({
+                    produtoId: venda.produtoId,
+                    nome: venda.produtoNome,
+                    quantidade: venda.quantidade,
+                    valorTotal: venda.valorTotal
+                });
+            } else {
+                acc[index].quantidade += venda.quantidade;
+                acc[index].valorTotal += venda.valorTotal;
+            }
+            return acc;
+        }, []).sort((a, b) => b.quantidade - a.quantidade).slice(0, 5);
+
+        const produtosMaisVendidosHtml = produtosMaisVendidos.map(produto => `
+            <div class="produto-vendido">
+                <div class="produto-vendido-info">
+                    <span class="produto-vendido-nome">${produto.nome}</span>
+                    <span class="produto-vendido-quantidade">Quantidade: ${produto.quantidade}</span>
+                </div>
+                <span class="produto-vendido-valor">R$ ${produto.valorTotal.toFixed(2)}</span>
+            </div>
+        `).join('');
+
+        document.getElementById('produtosMaisVendidos').innerHTML = produtosMaisVendidosHtml;
     }
 }
 
