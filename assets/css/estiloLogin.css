@@ -4,6 +4,9 @@ body {
     align-items: center;
     min-height: 100vh;
     background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    font-family: 'Poppins', Arial, sans-serif;
+    line-height: 1.5;
+    color: #fff;
 }
 
 .login-page {
@@ -18,33 +21,269 @@ body {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.1);
     overflow: hidden;
+    padding: 40px;
 }
 
 .login-header {
     text-align: center;
-    padding: 40px 20px;
-    background: rgba(255, 255, 255, 0.05);
+    margin-bottom: 40px;
+}
+
+.login-icon {
+    font-size: 48px;
+    background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+}
+
+.login-header h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.login-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 16px;
 }
 
 .login-form {
-    padding: 40px;
+    margin-bottom: 30px;
+}
+
+.login-form .form-group {
+    margin-bottom: 25px;
+}
+
+.login-form label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 16px;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.login-form label i {
+    color: #ff6b6b;
+}
+
+.login-form input[type="email"],
+.login-form input[type="password"] {
+    width: 100%;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.login-form input:focus {
+    outline: none;
+    border-color: #ff6b6b;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.2);
+}
+
+.login-form input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 16px;
+}
+
+.password-container {
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    padding: 8px;
+    transition: all 0.3s ease;
+    font-size: 18px;
+}
+
+.toggle-password:hover,
+.toggle-password:focus {
+    color: #ff6b6b;
+    outline: none;
+}
+
+.toggle-password:focus-visible {
+    outline: 2px solid #ff6b6b;
+    outline-offset: 2px;
+}
+
+.remember-me {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 16px;
+}
+
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: relative;
+    height: 20px;
+    width: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.checkbox-container:hover input ~ .checkmark {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.checkbox-container input:checked ~ .checkmark {
+    background: #ff6b6b;
+    border-color: #ff6b6b;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.forgot-password {
+    color: #ff6b6b;
+    font-size: 16px;
+    text-decoration: underline;
+    transition: all 0.3s ease;
+}
+
+.forgot-password:hover,
+.forgot-password:focus {
+    color: #ff8e53;
+    text-decoration: none;
+}
+
+.forgot-password:focus-visible {
+    outline: 2px solid #ff6b6b;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+.login-form .btn-login {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.login-form .btn-login:hover,
+.login-form .btn-login:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+}
+
+.login-form .btn-login:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+
+.login-footer {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.login-footer p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 14px;
+    margin: 5px 0;
 }
 
 .back-to-home {
     position: absolute;
     top: 20px;
     left: 20px;
-    color: rgba(255, 255, 255, 0.7);
-    text-decoration: none;
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: underline;
     display: flex;
     align-items: center;
     gap: 8px;
     transition: all 0.3s ease;
+    font-size: 16px;
+    padding: 8px;
 }
 
-.back-to-home:hover {
+.back-to-home:hover,
+.back-to-home:focus {
     color: #ff6b6b;
     text-decoration: none;
+}
+
+.back-to-home:focus-visible {
+    outline: 2px solid #ff6b6b;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* Mensagens de erro */
+.error-message {
+    color: #ff4757;
+    font-size: 14px;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Estados de foco para leitores de tela */
+*:focus-visible {
+    outline: 2px solid #ff6b6b;
+    outline-offset: 2px;
 }
 
 @media (max-width: 576px) {
@@ -52,7 +291,45 @@ body {
         padding: 10px;
     }
 
-    .login-form {
-        padding: 20px;
+    .login-container {
+        padding: 30px 20px;
+    }
+
+    .login-header h2 {
+        font-size: 24px;
+    }
+
+    .login-icon {
+        font-size: 40px;
+    }
+
+    .login-form input[type="email"],
+    .login-form input[type="password"] {
+        font-size: 16px;
+    }
+
+    .login-form .btn-login {
+        padding: 14px;
+        font-size: 16px;
+    }
+}
+
+/* Suporte para modo de alto contraste */
+@media (forced-colors: active) {
+    .login-container {
+        border: 2px solid CanvasText;
+    }
+
+    .login-form input[type="email"],
+    .login-form input[type="password"] {
+        border: 2px solid CanvasText;
+    }
+
+    .checkmark {
+        border: 2px solid CanvasText;
+    }
+
+    .btn-login {
+        border: 2px solid CanvasText;
     }
 }
