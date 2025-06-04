@@ -38,8 +38,10 @@ Sistema de gerenciamento de produtos desenvolvido para controle de estoque, vend
 - Google Fonts
 
 ### Acessibilidade
+- Atributos ARIA
 - Alto contraste
 - Textos alternativos
+- Estrutura semântica
 
 ### 💻 Como Usar
 
@@ -103,6 +105,3 @@ O sistema utiliza variáveis CSS para cores principais:
 ## 👥 Autores
 - João Victor Eurich Mittlstaedt - (https://github.com/JoaoVictorEurichh)
 - Allan Carlos Skvira Lemos - (https://github.com/Allanclms)
-
-## link da hospedagem
-https://sistema-de-gerenciamento-gamma.vercel.app/login.html
