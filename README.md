@@ -38,10 +38,8 @@ Sistema de gerenciamento de produtos desenvolvido para controle de estoque, vend
 - Google Fonts
 
 ### Acessibilidade
-- Atributos ARIA
 - Alto contraste
 - Textos alternativos
-- Estrutura semântica
 
 ### 💻 Como Usar
 
