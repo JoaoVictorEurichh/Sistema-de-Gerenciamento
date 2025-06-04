@@ -53,9 +53,9 @@ git clone https://github.com/JoaoVictorEurichh/Sistema-de-Gerenciamento.git
 
 2. Abra o arquivo `login.html` em seu navegador
 
-### Faca o login
--Email: admin@admin.com
--Senha: admin123
+### Tela de Login
+- Email: admin@admin.com
+- Senha: admin123
 
 ### Cadastro de Produtos
 1. Clique em "Adicionar Produto"
