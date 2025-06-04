@@ -15,7 +15,7 @@
         <div class="container">
             <div class="logo-container">
                 <a href="index.html" class="logo">
-                    <h1><i class="fas fa-box-open"></i> GestãoProdutos</h1>
+                    <h1><i class="link fas fa-box-open"></i> GestãoProdutos</h1>
                 </a>
             </div>
             
@@ -27,8 +27,7 @@
 
                 <div class="user-actions">
                     <div id="userInfo" style="display: none;">
-                        <span class="user-role">Administrador</span>
-                        <span id="userName"></span>
+                        <span class="user-role" id="userName">Administrador</span>
                         <button id="logoutBtn" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Sair</button>
                     </div>
                 </div>
@@ -167,9 +166,26 @@
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">PRODUTOS CADASTRADOS</h2>
-                <button id="addProdutoBtn" class="btn-add" style="display: none;">
-                    <i class="fas fa-plus"></i> Adicionar Produto
-                </button>
+                <div class="header-buttons">
+                    <div class="filtro-container">
+                        <button id="filtroBtn" class="btn-filtro">
+                            <i class="fas fa-filter"></i> Filtrar por Categoria
+                        </button>
+                        <div id="filtroDropdown" class="filtro-dropdown">
+                            <button class="filtro-option" data-categoria="todos">Todos</button>
+                            <button class="filtro-option" data-categoria="Pistola">Pistolas</button>
+                            <button class="filtro-option" data-categoria="Rifle">Rifles</button>
+                            <button class="filtro-option" data-categoria="Acessório">Acessórios</button>
+                            <button class="filtro-option" data-categoria="outros">Outros</button>
+                        </div>
+                    </div>
+                    <button id="relatoriosBtn" class="btn-relatorios">
+                        <i class="fas fa-chart-bar"></i> Relatórios de Estoque
+                    </button>
+                    <button id="addProdutoBtn" class="btn-add" style="display: none;">
+                        <i class="fas fa-plus"></i> Adicionar Produto
+                    </button>
+                </div>
             </div>
             <div class="section-divider"></div>
             
@@ -178,6 +194,51 @@
             </div>
         </div>
     </section>
+
+    <!-- Modal de Relatórios de Estoque -->
+    <div id="relatoriosModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="tituloModalRelatorios">
+        <div class="modal-content">
+            <span class="close" aria-label="Fechar modal">&times;</span>
+            <h2 id="tituloModalRelatorios">Relatórios de Estoque por Categoria</h2>
+            <div class="relatorios-container">
+                <div class="categoria-relatorio">
+                    <h3>Pistolas</h3>
+                    <div class="relatorio-info">
+                        <p>Total em Estoque: <span id="totalPistolas">0</span></p>
+                        <p>Valor Total: R$ <span id="valorPistolas">0.00</span></p>
+                    </div>
+                </div>
+                <div class="categoria-relatorio">
+                    <h3>Rifles</h3>
+                    <div class="relatorio-info">
+                        <p>Total em Estoque: <span id="totalRifles">0</span></p>
+                        <p>Valor Total: R$ <span id="valorRifles">0.00</span></p>
+                    </div>
+                </div>
+                <div class="categoria-relatorio">
+                    <h3>Acessórios</h3>
+                    <div class="relatorio-info">
+                        <p>Total em Estoque: <span id="totalAcessorios">0</span></p>
+                        <p>Valor Total: R$ <span id="valorAcessorios">0.00</span></p>
+                    </div>
+                </div>
+                <div class="categoria-relatorio">
+                    <h3>Outros</h3>
+                    <div class="relatorio-info">
+                        <p>Total em Estoque: <span id="totalOutros">0</span></p>
+                        <p>Valor Total: R$ <span id="valorOutros">0.00</span></p>
+                    </div>
+                </div>
+                <div class="relatorio-total">
+                    <h3>Total Geral</h3>
+                    <div class="relatorio-info">
+                        <p>Total em Estoque: <span id="totalGeral">0</span></p>
+                        <p>Valor Total: R$ <span id="valorGeral">0.00</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="assets/js/script.js"></script>
 </body>
