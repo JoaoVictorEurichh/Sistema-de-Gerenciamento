@@ -55,7 +55,7 @@ git clone https://github.com/JoaoVictorEurichh/Sistema-de-Gerenciamento.git
 
 ### Tela de Login
 - Email: admin@admin.com
-- Senha: adm123adm
+- Senha: admin123
 
 ### Cadastro de Produtos
 1. Clique em "Adicionar Produto"

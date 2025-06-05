@@ -405,6 +405,166 @@ RelatoriosEstoque.prototype.atualizarRelatorios = function() {
     document.getElementById('valorGeral').textContent = valorGeral.toFixed(2);
 };
 
+GerenciadorProdutos.prototype.salvarProdutos = function() {
+    localStorage.setItem('produtos', JSON.stringify(this.produtos));
+};
+
+GerenciadorProdutos.prototype.incrementarPreco = function() {
+    const precoInput = document.getElementById('preco');
+    const precoAtual = parseFloat(precoInput.value) || 0;
+    precoInput.value = (precoAtual + 0.01).toFixed(2);
+};
+
+GerenciadorProdutos.prototype.decrementarPreco = function() {
+    const precoInput = document.getElementById('preco');
+    const precoAtual = parseFloat(precoInput.value) || 0;
+    if (precoAtual > 0) {
+        precoInput.value = (precoAtual - 0.01).toFixed(2);
+    }
+};
+
+GerenciadorProdutos.prototype.incrementarQuantidade = function() {
+    const quantidadeInput = document.getElementById('quantidade');
+    const quantidadeAtual = parseInt(quantidadeInput.value) || 0;
+    quantidadeInput.value = quantidadeAtual + 1;
+};
+
+GerenciadorProdutos.prototype.decrementarQuantidade = function() {
+    const quantidadeInput = document.getElementById('quantidade');
+    const quantidadeAtual = parseInt(quantidadeInput.value) || 0;
+    if (quantidadeAtual > 0) {
+        quantidadeInput.value = quantidadeAtual - 1;
+    }
+};
+
+GerenciadorProdutos.prototype.incrementarQuantidadeVenda = function() {
+    const quantidadeInput = document.getElementById('vendaQuantidade');
+    const quantidadeAtual = parseInt(quantidadeInput.value) || 0;
+    quantidadeInput.value = quantidadeAtual + 1;
+    this.atualizarValorTotalVenda();
+};
+
+GerenciadorProdutos.prototype.decrementarQuantidadeVenda = function() {
+    const quantidadeInput = document.getElementById('vendaQuantidade');
+    const quantidadeAtual = parseInt(quantidadeInput.value) || 0;
+    if (quantidadeAtual > 1) {
+        quantidadeInput.value = quantidadeAtual - 1;
+        this.atualizarValorTotalVenda();
+    }
+};
+
+GerenciadorProdutos.prototype.atualizarValorTotalVenda = function() {
+    const quantidade = parseInt(document.getElementById('vendaQuantidade').value) || 0;
+    const valorUnitario = parseFloat(document.getElementById('vendaValor').value) || 0;
+    const valorTotal = quantidade * valorUnitario;
+    document.getElementById('vendaTotal').value = valorTotal.toFixed(2);
+};
+
+GerenciadorProdutos.prototype.registrarVenda = function(produtoId) {
+    const produto = this.produtos.find(p => p.id === produtoId);
+    if (!produto) return;
+
+    document.getElementById('vendaProdutoId').value = produtoId;
+    document.getElementById('vendaQuantidade').value = '1';
+    document.getElementById('vendaValor').value = produto.preco.toFixed(2);
+    document.getElementById('vendaTotal').value = produto.preco.toFixed(2);
+
+    this.abrirModal(this.vendaModal);
+};
+
+GerenciadorProdutos.prototype.confirmarVenda = function() {
+    const produtoId = parseInt(document.getElementById('vendaProdutoId').value);
+    const quantidade = parseInt(document.getElementById('vendaQuantidade').value);
+    const valorUnitario = parseFloat(document.getElementById('vendaValor').value);
+    const valorTotal = parseFloat(document.getElementById('vendaTotal').value);
+
+    const produto = this.produtos.find(p => p.id === produtoId);
+    if (!produto) return;
+
+    if (quantidade > produto.quantidade) {
+        alert('Quantidade insuficiente em estoque!');
+        return;
+    }
+
+    produto.quantidade -= quantidade;
+
+    const venda = {
+        id: Date.now(),
+        produtoId,
+        produtoNome: produto.nome,
+        quantidade,
+        valorUnitario,
+        valorTotal,
+        data: new Date().toISOString()
+    };
+
+    this.vendas.push(venda);
+    localStorage.setItem('vendas', JSON.stringify(this.vendas));
+    this.salvarProdutos();
+    this.atualizarListaProdutos();
+    this.fecharModal(this.vendaModal);
+};
+
+GerenciadorProdutos.prototype.editarProduto = function(produtoId) {
+    const produto = this.produtos.find(p => p.id === produtoId);
+    if (!produto) return;
+
+    document.getElementById('editarId').value = produto.id;
+    document.getElementById('editarNome').value = produto.nome;
+    document.getElementById('editarCategoria').value = produto.categoria;
+    document.getElementById('editarDescricao').value = produto.descricao;
+    document.getElementById('editarPreco').value = produto.preco;
+    document.getElementById('editarQuantidade').value = produto.quantidade;
+
+    if (produto.foto) {
+        this.editarPreviewContainer.innerHTML = `<img src="${produto.foto}" alt="Preview">`;
+    }
+
+    this.abrirModal(this.editarProdutoModal);
+};
+
+GerenciadorProdutos.prototype.salvarEdicaoProduto = function() {
+    const id = parseInt(document.getElementById('editarId').value);
+    const nome = document.getElementById('editarNome').value;
+    const categoria = document.getElementById('editarCategoria').value;
+    const descricao = document.getElementById('editarDescricao').value;
+    const preco = parseFloat(document.getElementById('editarPreco').value);
+    const quantidade = parseInt(document.getElementById('editarQuantidade').value);
+    const fotoInput = document.getElementById('editarFoto');
+    const foto = fotoInput.files[0];
+
+    if (!this.validarProduto(nome, categoria, descricao, preco, quantidade)) {
+        return;
+    }
+
+    const produtoIndex = this.produtos.findIndex(p => p.id === id);
+    if (produtoIndex === -1) return;
+
+    this.produtos[produtoIndex] = {
+        ...this.produtos[produtoIndex],
+        nome,
+        categoria,
+        descricao,
+        preco,
+        quantidade,
+        foto: foto ? URL.createObjectURL(foto) : this.produtos[produtoIndex].foto
+    };
+
+    this.salvarProdutos();
+    this.atualizarListaProdutos();
+    this.fecharModal(this.editarProdutoModal);
+};
+
+GerenciadorProdutos.prototype.excluirProduto = function(produtoId) {
+    if (!confirm('Tem certeza que deseja excluir este produto?')) {
+        return;
+    }
+
+    this.produtos = this.produtos.filter(p => p.id !== produtoId);
+    this.salvarProdutos();
+    this.atualizarListaProdutos();
+};
+
 // Inicializar os gerenciadores
 const autenticacao = new Autenticacao();
 const gerenciadorProdutos = new GerenciadorProdutos();
