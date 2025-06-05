@@ -5,7 +5,7 @@ Sistema de gerenciamento de produtos desenvolvido para controle de estoque, vend
 
 
 - ## link da Hospedagem
-- https://sistema-de-gerenciamento-gamma.vercel.app/index.html
+- https://sistema-de-gerenciamento-gamma.vercel.app/login.html
 
 
 ## Funcionalidades
