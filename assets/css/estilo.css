@@ -418,6 +418,7 @@ a {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 40px;
     padding: 20px 0;
+    grid-auto-rows: 1fr;
 }
 
 .produto-card {
@@ -479,6 +480,9 @@ a {
     color: rgba(255, 255, 255, 0.9);
     margin-bottom: 20px;
     line-height: 1.6;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .produto-valor {
