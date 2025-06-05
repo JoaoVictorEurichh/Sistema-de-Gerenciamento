@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const senha = document.getElementById('senha').value;
 
         // Simulação de autenticação (em um sistema real, isso seria feito no backend)
-        if (email === 'admin@admin.com' && senha === 'admin123') {
+        if (email === 'admin@admin.com' && senha === 'adm123adm') {
             const usuarioAtual = { email, nome: 'Administrador' };
             localStorage.setItem('usuarioAtual', JSON.stringify(usuarioAtual));
             window.location.href = 'index.html';
