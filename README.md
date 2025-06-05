@@ -38,10 +38,8 @@ Sistema de gerenciamento de produtos desenvolvido para controle de estoque, vend
 - Google Fonts
 
 ### Acessibilidade
-- Atributos ARIA
 - Alto contraste
 - Textos alternativos
-- Estrutura semântica
 
 ### 💻 Como Usar
 
@@ -55,7 +53,7 @@ git clone https://github.com/JoaoVictorEurichh/Sistema-de-Gerenciamento.git
 
 ### Tela de Login
 - Email: admin@admin.com
-- Senha: admin123
+- Senha: adm123adm
 
 ### Cadastro de Produtos
 1. Clique em "Adicionar Produto"
