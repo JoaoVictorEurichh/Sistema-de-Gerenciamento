@@ -61,7 +61,6 @@
                         <option value="FUZIL">Fuzil</option>
                         <option value="Acessório">Acessório</option>
                         <option value="MUNIÇÃO">Munição</option>
-                        <option value="CARREGADORES">Carregadores</option>
                         <option value="outros">Outros</option>
                     </select>
                 </div>
@@ -158,7 +157,6 @@
                         <option value="FUZIL">Fuzil</option>
                         <option value="Acessório">Acessório</option>
                         <option value="MUNIÇÃO">Munição</option>
-                        <option value="CARREGADORES">Carregadores</option>
                         <option value="outros">Outros</option>
                     </select>
                 </div>
@@ -240,7 +238,6 @@
                                 <button class="filtro-option" data-tipo="categoria" data-valor="FUZIL" role="menuitem">Fuzis</button>
                                 <button class="filtro-option" data-tipo="categoria" data-valor="Acessório" role="menuitem">Acessórios</button>
                                 <button class="filtro-option" data-tipo="categoria" data-valor="MUNIÇÃO" role="menuitem">Munições</button>
-                                <button class="filtro-option" data-tipo="categoria" data-valor="CARREGADORES" role="menuitem">Carregadores</button>
                             </div>
                         </div>
                     </div>
@@ -267,7 +264,6 @@
             <h2 id="tituloModalRelatorios">Relatórios</h2>
             <div class="relatorios-tabs">
                 <button class="tab-btn active" data-tab="estoque">Estoque</button>
-                <button class="tab-btn" data-tab="vendas">Vendas</button>
             </div>
             
             <div id="relatorioEstoque" class="relatorio-tab active">
@@ -278,65 +274,48 @@
                             <p>Total em Estoque: <span id="totalPistolas">0</span></p>
                             <p>Valor Total: R$ <span id="valorPistolas">0.00</span></p>
                         </div>
-                    </div>
-                    <div class="categoria-relatorio">
+                        <h3>Revólveres</h3>
+                        <div class="relatorio-info">
+                            <p>Total em Estoque: <span id="totalRevolveres">0</span></p>
+                            <p>Valor Total: R$ <span id="valorRevolveres">0.00</span></p>
+                        </div>
+                        <h3>Carabinas</h3>
+                        <div class="relatorio-info">
+                            <p>Total em Estoque: <span id="totalCarabinas">0</span></p>
+                            <p>Valor Total: R$ <span id="valorCarabinas">0.00</span></p>
+                        </div>
+                        <h3>Espingardas</h3>    
+                        <div class="relatorio-info">
+                            <p>Total em Estoque: <span id="totalEspingardas">0</span></p>
+                            <p>Valor Total: R$ <span id="valorEspingardas">0.00</span></p>
+                        </div>
                         <h3>Rifles</h3>
                         <div class="relatorio-info">
                             <p>Total em Estoque: <span id="totalRifles">0</span></p>
                             <p>Valor Total: R$ <span id="valorRifles">0.00</span></p>
                         </div>
-                    </div>
-                    <div class="categoria-relatorio">
+                        <h3>Fuzis</h3>
+                        <div class="relatorio-info">
+                            <p>Total em Estoque: <span id="totalFuzis">0</span></p>
+                            <p>Valor Total: R$ <span id="valorFuzis">0.00</span></p>
+                        </div>
                         <h3>Acessórios</h3>
                         <div class="relatorio-info">
-                            <p>Total em Estoque: <span id="totalAcessorios">0</span></p>
-                            <p>Valor Total: R$ <span id="valorAcessorios">0.00</span></p>
+                            <p>Total em Estoque: <span id="totalAcessórios">0</span></p>
+                            <p>Valor Total: R$ <span id="valorAcessórios">0.00</span></p>
                         </div>
-                    </div>
-                    <div class="categoria-relatorio">
-                        <h3>Outros</h3>
+                        <h3>Munições</h3>
                         <div class="relatorio-info">
-                            <p>Total em Estoque: <span id="totalOutros">0</span></p>
-                            <p>Valor Total: R$ <span id="valorOutros">0.00</span></p>
+                            <p>Total em Estoque: <span id="totalMunições">0</span></p>
+                            <p>Valor Total: R$ <span id="valorMunições">0.00</span></p>
                         </div>
-                    </div>
+                    </div> 
+                    
                     <div class="relatorio-total">
                         <h3>Total Geral</h3>
                         <div class="relatorio-info">
                             <p>Total em Estoque: <span id="totalGeral">0</span></p>
                             <p>Valor Total: R$ <span id="valorGeral">0.00</span></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="relatorioVendas" class="relatorio-tab">
-                <div class="relatorios-container">
-                    <div class="categoria-relatorio">
-                        <h3>Vendas do Dia</h3>
-                        <div class="relatorio-info">
-                            <p>Quantidade Vendida: <span id="totalVendasDia">0</span></p>
-                            <p>Valor Total: R$ <span id="valorVendasDia">0.00</span></p>
-                        </div>
-                    </div>
-                    <div class="categoria-relatorio">
-                        <h3>Vendas da Semana</h3>
-                        <div class="relatorio-info">
-                            <p>Quantidade Vendida: <span id="totalVendasSemana">0</span></p>
-                            <p>Valor Total: R$ <span id="valorVendasSemana">0.00</span></p>
-                        </div>
-                    </div>
-                    <div class="categoria-relatorio">
-                        <h3>Vendas do Mês</h3>
-                        <div class="relatorio-info">
-                            <p>Quantidade Vendida: <span id="totalVendasMes">0</span></p>
-                            <p>Valor Total: R$ <span id="valorVendasMes">0.00</span></p>
-                        </div>
-                    </div>
-                    <div class="relatorio-total">
-                        <h3>Produtos Mais Vendidos</h3>
-                        <div id="produtosMaisVendidos" class="produtos-mais-vendidos">
-                            <!-- Lista de produtos mais vendidos será inserida aqui via JavaScript -->
                         </div>
                     </div>
                 </div>
